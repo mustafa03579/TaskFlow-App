@@ -1,0 +1,22 @@
+<svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="badge_grad" x1="0" y1="0" x2="80" y2="80" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#14756a"/>
+      <stop offset="100%" stop-color="#25c49a"/>
+    </linearGradient>
+    <linearGradient id="arrow_grad" x1="0" y1="80" x2="80" y2="0" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="rgba(255,255,255,0.75)"/>
+      <stop offset="100%" stop-color="rgba(255,255,255,1)"/>
+    </linearGradient>
+  </defs>
+  <!-- Badge background -->
+  <rect x="0" y="0" width="80" height="80" rx="20" fill="url(#badge_grad)"/>
+  <!-- Task list lines -->
+  <rect x="14" y="20" width="26" height="5" rx="2.5" fill="url(#arrow_grad)"/>
+  <rect x="14" y="31" width="20" height="5" rx="2.5" fill="white" opacity="0.8"/>
+  <rect x="14" y="42" width="12" height="5" rx="2.5" fill="white" opacity="0.5"/>
+  <!-- Flowing arrow shaft -->
+  <path d="M26 47 C32 47 36 22 60 20" stroke="white" stroke-width="5.5" stroke-linecap="round" fill="none"/>
+  <!-- Arrow head -->
+  <path d="M60 20 L50 17 M60 20 L63 30" stroke="white" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+</svg>

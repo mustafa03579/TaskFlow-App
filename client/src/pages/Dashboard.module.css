@@ -723,3 +723,202 @@
   transform: translateY(-2px);
   box-shadow: 0 8px 20px var(--primary-glow);
 }
+
+/* =========================================================
+   RESPONSIVE — Dashboard
+   ========================================================= */
+
+/* Tablet (≤ 900px) */
+@media (max-width: 900px) {
+  .header {
+    padding: 0.85rem 1.5rem;
+  }
+
+  .mainContent {
+    padding: 2.5rem 1.5rem;
+  }
+
+  .statsRow {
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .statCard {
+    flex: 1 1 calc(50% - 0.5rem);
+    min-width: 140px;
+  }
+
+  .jobItem {
+    padding: 1.25rem 1.25rem;
+  }
+}
+
+/* Tablet (≤ 768px) */
+@media (max-width: 768px) {
+  .headerLeft {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .navToggles {
+    margin-left: 0;
+    margin-top: 0.35rem;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .greetingText {
+    font-size: 0.8rem;
+  }
+
+  .pageTitle {
+    font-size: 1.7rem;
+  }
+
+  .statsRow {
+    gap: 0.75rem;
+    margin: 1.5rem 0 2rem;
+  }
+
+  .inputRow {
+    flex-wrap: wrap;
+    padding: 0.75rem 1rem;
+    border-left-width: 3px;
+    gap: 0.5rem;
+  }
+
+  .taskInput {
+    width: 100%;
+    order: 1;
+  }
+
+  .prioritySelect {
+    order: 2;
+    flex: 1;
+    margin: 0;
+  }
+
+  .addBtn {
+    order: 3;
+  }
+
+  .modal {
+    max-width: 95vw;
+    margin: 1rem;
+  }
+}
+
+/* Mobile (≤ 480px) */
+@media (max-width: 480px) {
+  .header {
+    padding: 0.75rem 1rem;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .headerRight {
+    gap: 0.5rem;
+  }
+
+  .greetingBadge {
+    padding: 0.35rem 0.7rem;
+  }
+
+  .greetingText {
+    font-size: 0.75rem;
+  }
+
+  .signOutBtn span:last-child {
+    display: none; /* hide "Sign out" text — keep only icon */
+  }
+
+  .mainContent {
+    padding: 1.75rem 1rem;
+  }
+
+  .navPill {
+    padding: 0.4rem 0.85rem;
+    font-size: 0.82rem;
+  }
+
+  .pageTitle {
+    font-size: 1.45rem;
+  }
+
+  .pageHeaderFlex {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .primaryBtn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .statsRow {
+    flex-direction: column;
+    gap: 0.65rem;
+  }
+
+  .statCard {
+    flex: none;
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.25rem;
+  }
+
+  .statValue {
+    font-size: 1.6rem;
+  }
+
+  .taskItem {
+    padding: 0.85rem 1rem;
+  }
+
+  .taskRight {
+    gap: 0.5rem;
+    margin-left: 0.5rem;
+  }
+
+  .priorityPill {
+    display: none; /* on very small phones, hide pill to fit title */
+  }
+
+  .jobItem {
+    flex-direction: column;
+    gap: 0.85rem;
+    padding: 1.25rem 1rem;
+  }
+
+  .jobRight {
+    flex-direction: row;
+    align-items: center;
+    margin-left: 0;
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .modalOverlay {
+    align-items: flex-end;
+  }
+
+  .modal {
+    max-width: 100%;
+    margin: 0;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+
+  .modalBody {
+    padding: 1.5rem;
+  }
+
+  .modalHeader {
+    padding: 1.25rem 1.5rem;
+  }
+}
+

@@ -228,3 +228,74 @@
   transition: opacity 0.2s;
 }
 .footer a:hover { opacity: 0.75; }
+
+/* =========================================================
+   RESPONSIVE — Auth Pages
+   ========================================================= */
+
+/* Tablet */
+@media (max-width: 768px) {
+  .header {
+    padding: 1rem 1.5rem;
+  }
+
+  .main {
+    padding: 3rem 1.5rem;
+  }
+
+  .authCard {
+    padding: 2.5rem 2rem 0;
+  }
+
+  .authCard::before {
+    margin: -2.5rem -2rem 2rem;
+  }
+
+  .footer {
+    margin: 0 -2rem;
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+  .header {
+    padding: 0.9rem 1rem;
+  }
+
+  .nav {
+    gap: 0.4rem;
+  }
+
+  .main {
+    padding: 2rem 1rem;
+    align-items: flex-start;
+  }
+
+  .authCard {
+    padding: 2rem 1.25rem 0;
+    border-radius: var(--radius-lg);
+    max-width: 100%;
+  }
+
+  .authCard::before {
+    margin: -2rem -1.25rem 1.75rem;
+  }
+
+  .title {
+    font-size: 1.4rem;
+  }
+
+  .subtitle {
+    font-size: 0.875rem;
+  }
+
+  .footer {
+    margin: 0 -1.25rem;
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+    font-size: 0.85rem;
+  }
+}
+

@@ -286,3 +286,95 @@
   transform: translateY(-2px);
   box-shadow: var(--shadow-sm);
 }
+
+/* =========================================================
+   RESPONSIVE — Tablet (≤ 768px) & Mobile (≤ 480px)
+   ========================================================= */
+
+/* Tablet */
+@media (max-width: 768px) {
+  .header {
+    padding: 1rem 1.5rem;
+  }
+
+  .hero {
+    margin: 4rem auto 3rem;
+  }
+
+  .hero h1 {
+    font-size: 2.75rem;
+  }
+
+  .hero p {
+    font-size: 1rem;
+  }
+
+  .features {
+    flex-direction: column;
+    gap: 1.25rem;
+    margin-bottom: 3rem;
+    padding: 0 1.5rem;
+  }
+
+  .featureCard {
+    padding: 2rem;
+  }
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+  .header {
+    padding: 0.9rem 1.1rem;
+  }
+
+  .nav {
+    gap: 0.4rem;
+  }
+
+  .loginBtn {
+    display: none; /* hide Sign In text link — only show button */
+  }
+
+  .getStartedBtn {
+    padding: 0.45rem 0.9rem;
+    font-size: 0.82rem;
+  }
+
+  .hero {
+    margin: 3rem auto 2.5rem;
+    padding: 0 1.25rem;
+  }
+
+  .hero h1 {
+    font-size: 2.1rem;
+    letter-spacing: -0.03em;
+  }
+
+  .hero p {
+    font-size: 0.95rem;
+  }
+
+  .heroActions {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .primaryBtn, .secondaryBtn {
+    width: 100%;
+    justify-content: center;
+    padding: 0.85rem 1rem;
+  }
+
+  .features {
+    padding: 0 1rem;
+  }
+
+  .featureCard {
+    padding: 1.5rem;
+  }
+
+  .footer {
+    padding: 2rem 1rem;
+  }
+}
+
