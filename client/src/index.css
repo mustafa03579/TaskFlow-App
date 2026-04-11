@@ -1,0 +1,279 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+/* ============================================================
+   LIGHT MODE — Default
+   ============================================================ */
+:root {
+  /* Brand */
+  --primary:        #14756a;
+  --primary-hover:  #0f5e55;
+  --primary-light:  #25c49a;
+  --primary-glow:   rgba(20, 117, 106, 0.15);
+  --primary-soft:   #e8f9f5;
+
+  /* Text */
+  --text-dark:   #0f1f1d;
+  --text-mid:    #374843;
+  --text-light:  #6b8c87;
+  --text-muted:  #9bbab6;
+
+  /* Backgrounds */
+  --bg:           #f5faf9;
+  --bg-white:     #ffffff;
+  --bg-alt:       #eef7f5;
+  --bg-input:     #f5faf9;
+
+  /* Glassmorphism headers (the hardcoded rgba fix) */
+  --header-bg:    rgba(255, 255, 255, 0.82);
+  --header-border: rgba(214, 236, 232, 0.8);
+
+  /* Cards & surfaces */
+  --card-bg:      #ffffff;
+  --card-border:  #e8f4f2;
+  --modal-header-bg: linear-gradient(135deg, #e8f9f5 0%, #d0f5ea 100%);
+  --overlay-bg:   rgba(10, 25, 23, 0.55);
+
+  /* Borders */
+  --border:      #d6ece8;
+  --border-soft: #e8f4f2;
+
+  /* Shadows */
+  --shadow-xs:  0 1px 3px rgba(15, 31, 29, 0.06);
+  --shadow-sm:  0 2px 8px rgba(15, 31, 29, 0.08);
+  --shadow-md:  0 4px 20px rgba(15, 31, 29, 0.1);
+  --shadow-lg:  0 12px 40px rgba(15, 31, 29, 0.12);
+  --shadow-xl:  0 24px 64px rgba(15, 31, 29, 0.14);
+
+  /* Radii */
+  --radius-sm:   8px;
+  --radius-md:   14px;
+  --radius-lg:   20px;
+  --radius-xl:   28px;
+  --radius-full: 9999px;
+
+  /* Typography */
+  --font: 'Inter', system-ui, -apple-system, sans-serif;
+
+  /* Easing */
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Greeting badge */
+  --greeting-bg:     linear-gradient(135deg, #e8f9f5 0%, #d0f5ea 100%);
+  --greeting-border: #b2e8da;
+  --greeting-text:   #2d6e63;
+  --greeting-name:   #14756a;
+
+  /* Sign out button */
+  --signout-border:   #d6ece8;
+  --signout-color:    #6b8c87;
+  --signout-hover-bg:     #fff5f5;
+  --signout-hover-border: #fca5a5;
+  --signout-hover-color:  #dc2626;
+
+  /* Priority pills — light */
+  --prio-high-bg:     #fff7ed;
+  --prio-high-color:  #c2410c;
+  --prio-high-border: #fed7aa;
+  --prio-high-dot:    #f97316;
+
+  --prio-med-bg:     #f0fdf9;
+  --prio-med-color:  #0e7a6a;
+  --prio-med-border: #99e6d6;
+  --prio-med-dot:    #14b8a6;
+
+  --prio-low-bg:     #eef2ff;
+  --prio-low-color:  #4338ca;
+  --prio-low-border: #c7d2fe;
+  --prio-low-dot:    #6366f1;
+
+  /* Status pills — light */
+  --status-applied-bg:     #eff6ff;
+  --status-applied-color:  #1d4ed8;
+  --status-applied-border: #bfdbfe;
+  --status-applied-dot:    #3b82f6;
+
+  --status-interviewing-bg:     #fff7ed;
+  --status-interviewing-color:  #c2410c;
+  --status-interviewing-border: #fed7aa;
+  --status-interviewing-dot:    #f97316;
+
+  --status-offered-bg:     #f0fdf4;
+  --status-offered-color:  #15803d;
+  --status-offered-border: #bbf7d0;
+  --status-offered-dot:    #22c55e;
+
+  --status-rejected-bg:     #fff1f2;
+  --status-rejected-color:  #be123c;
+  --status-rejected-border: #fecdd3;
+  --status-rejected-dot:    #f43f5e;
+
+  /* Stat cards */
+  --stat-high-bg:     linear-gradient(135deg, #fffbf0, #fff7e0);
+  --stat-high-border: #fde68a;
+  --stat-high-label:  #b45309;
+  --stat-high-value:  #d97706;
+
+  --stat-med-bg:     linear-gradient(135deg, #e8f9f5, #d0f5ea);
+  --stat-med-border: var(--border);
+  --stat-med-label:  var(--primary-hover);
+  --stat-med-value:  var(--primary);
+
+  --stat-low-bg:     linear-gradient(135deg, #eef2ff, #e0e7ff);
+  --stat-low-border: #c7d2fe;
+  --stat-low-label:  #4338ca;
+  --stat-low-value:  #4f46e5;
+}
+
+/* ============================================================
+   DARK MODE — Premium, eye-friendly dark
+   ============================================================ */
+[data-theme="dark"] {
+  /* Brand — brighter on dark for contrast */
+  --primary:        #2dd4a0;
+  --primary-hover:  #1fb88a;
+  --primary-light:  #5ce0bb;
+  --primary-glow:   rgba(45, 212, 160, 0.12);
+  --primary-soft:   #0d2420;
+
+  /* Text — soft, not harsh white */
+  --text-dark:   #e2f0ee;
+  --text-mid:    #9dc4bf;
+  --text-light:  #5f9490;
+  --text-muted:  #3d6b67;
+
+  /* Backgrounds — layered dark surfaces */
+  --bg:           #0d1817;
+  --bg-white:     #111e1c;
+  --bg-alt:       #172420;
+  --bg-input:     #111e1c;
+
+  /* Glassmorphism headers in dark */
+  --header-bg:    rgba(13, 24, 23, 0.88);
+  --header-border: rgba(30, 61, 56, 0.9);
+
+  /* Cards & surfaces */
+  --card-bg:      #111e1c;
+  --card-border:  #1e3d38;
+  --modal-header-bg: linear-gradient(135deg, #0d2420 0%, #102e28 100%);
+  --overlay-bg:   rgba(0, 0, 0, 0.72);
+
+  /* Borders */
+  --border:      #213d38;
+  --border-soft: #192e2a;
+
+  /* Shadows — visible on dark bg */
+  --shadow-xs:  0 1px 3px rgba(0, 0, 0, 0.4);
+  --shadow-sm:  0 2px 10px rgba(0, 0, 0, 0.45);
+  --shadow-md:  0 4px 24px rgba(0, 0, 0, 0.5);
+  --shadow-lg:  0 12px 40px rgba(0, 0, 0, 0.55);
+  --shadow-xl:  0 24px 64px rgba(0, 0, 0, 0.6);
+
+  /* Greeting badge */
+  --greeting-bg:     linear-gradient(135deg, #0d2420 0%, #102e28 100%);
+  --greeting-border: #1f4a43;
+  --greeting-text:   #7dc4ba;
+  --greeting-name:   #2dd4a0;
+
+  /* Sign out button */
+  --signout-border:   #213d38;
+  --signout-color:    #5f9490;
+  --signout-hover-bg:     #2a1212;
+  --signout-hover-border: #7f1d1d;
+  --signout-hover-color:  #f87171;
+
+  /* Priority pills — dark, softer tones */
+  --prio-high-bg:     #2a1a10;
+  --prio-high-color:  #fb923c;
+  --prio-high-border: #7c3a1a;
+  --prio-high-dot:    #f97316;
+
+  --prio-med-bg:     #0d2420;
+  --prio-med-color:  #2dd4a0;
+  --prio-med-border: #1a4a3f;
+  --prio-med-dot:    #2dd4a0;
+
+  --prio-low-bg:     #1a1a30;
+  --prio-low-color:  #a5b4fc;
+  --prio-low-border: #312e81;
+  --prio-low-dot:    #818cf8;
+
+  /* Status pills — dark */
+  --status-applied-bg:     #0f1e35;
+  --status-applied-color:  #60a5fa;
+  --status-applied-border: #1e3a5f;
+  --status-applied-dot:    #3b82f6;
+
+  --status-interviewing-bg:     #2a1a10;
+  --status-interviewing-color:  #fb923c;
+  --status-interviewing-border: #7c3a1a;
+  --status-interviewing-dot:    #f97316;
+
+  --status-offered-bg:     #0f2a1a;
+  --status-offered-color:  #34d399;
+  --status-offered-border: #1a4a30;
+  --status-offered-dot:    #22c55e;
+
+  --status-rejected-bg:     #2a0f1a;
+  --status-rejected-color:  #fb7185;
+  --status-rejected-border: #7f1d35;
+  --status-rejected-dot:    #f43f5e;
+
+  /* Stat cards — dark tinted */
+  --stat-high-bg:     linear-gradient(135deg, #2a1a0f, #251508);
+  --stat-high-border: #7c3a1a;
+  --stat-high-label:  #fb923c;
+  --stat-high-value:  #f97316;
+
+  --stat-med-bg:     linear-gradient(135deg, #0d2420, #102e28);
+  --stat-med-border: #1a4a3f;
+  --stat-med-label:  #2dd4a0;
+  --stat-med-value:  #2dd4a0;
+
+  --stat-low-bg:     linear-gradient(135deg, #1a1a30, #141428);
+  --stat-low-border: #312e81;
+  --stat-low-label:  #a5b4fc;
+  --stat-low-value:  #818cf8;
+}
+
+/* ============================================================
+   BASE RESET & GLOBALS
+   ============================================================ */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text-dark);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.6;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+button {
+  cursor: pointer;
+  font-family: var(--font);
+}
+
+input, select, textarea {
+  font-family: var(--font);
+}
+
+/* Smooth page-level fade-in */
+#root {
+  animation: rootFadeIn 0.4s ease-out both;
+}
+
+@keyframes rootFadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}

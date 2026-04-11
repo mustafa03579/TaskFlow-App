@@ -1,0 +1,230 @@
+/* =========================================================
+   AUTH PAGES — Using CSS variables for full dark mode support
+   ========================================================= */
+
+.authContainer {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+  background-image:
+    radial-gradient(ellipse at 10% 20%, var(--primary-glow) 0%, transparent 50%),
+    radial-gradient(ellipse at 90% 80%, var(--primary-glow) 0%, transparent 50%);
+  transition: background 0.3s ease;
+}
+
+/* ── Header ── */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.1rem 3rem;
+  background: var(--header-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--header-border);
+  box-shadow: var(--shadow-xs);
+  transition: background 0.3s ease;
+}
+
+.nav {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.navText {
+  color: var(--text-mid);
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-decoration: none;
+}
+
+.getStartedBtn {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1.2rem;
+  border-radius: var(--radius-full);
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-decoration: none;
+  transition: all 0.25s var(--ease-spring);
+  box-shadow: 0 4px 12px var(--primary-glow);
+}
+.getStartedBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px var(--primary-glow);
+}
+
+/* ── Main ── */
+.main {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 4rem 2rem;
+}
+
+/* ── Auth Card ── */
+.authCard {
+  background: var(--bg-white);
+  border-radius: var(--radius-xl);
+  padding: 3rem 2.75rem 0;
+  width: 100%;
+  max-width: 460px;
+  box-shadow: var(--shadow-xl);
+  text-align: center;
+  border: 1px solid var(--border-soft);
+  overflow: hidden;
+  animation: cardIn 0.5s var(--ease-spring) both;
+  transition: background 0.3s ease, border-color 0.3s ease;
+}
+
+@keyframes cardIn {
+  from { opacity: 0; transform: translateY(24px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Top accent bar */
+.authCard::before {
+  content: '';
+  display: block;
+  height: 4px;
+  background: linear-gradient(90deg, var(--primary) 0%, var(--primary-light) 100%);
+  margin: -3rem -2.75rem 2.5rem;
+}
+
+.title {
+  font-size: 1.65rem;
+  font-weight: 800;
+  color: var(--text-dark);
+  letter-spacing: -0.03em;
+  margin-bottom: 0.5rem;
+}
+
+.subtitle {
+  color: var(--text-light);
+  font-size: 0.95rem;
+  margin-bottom: 2rem;
+  line-height: 1.5;
+}
+
+/* ── Error Banner ── */
+.errorBanner {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--status-rejected-bg);
+  border: 1.5px solid var(--status-rejected-border);
+  color: var(--status-rejected-color);
+  font-size: 0.875rem;
+  font-weight: 600;
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius-md);
+  margin-bottom: 1.25rem;
+  animation: shakeIn 0.35s var(--ease-smooth) both;
+  text-align: left;
+}
+.errorBanner::before {
+  content: '⚠';
+  font-size: 0.9rem;
+  flex-shrink: 0;
+}
+
+@keyframes shakeIn {
+  0%   { transform: translateX(-6px); opacity: 0; }
+  40%  { transform: translateX(4px); }
+  70%  { transform: translateX(-2px); }
+  100% { transform: translateX(0); opacity: 1; }
+}
+
+/* ── Form ── */
+.formGroup {
+  text-align: left;
+  margin-bottom: 1.25rem;
+}
+
+.formGroup label {
+  display: block;
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: var(--text-mid);
+  margin-bottom: 0.5rem;
+  letter-spacing: 0.01em;
+}
+
+.input {
+  width: 100%;
+  padding: 0.85rem 1.1rem;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-md);
+  font-size: 0.95rem;
+  background: var(--bg-input);
+  color: var(--text-dark);
+  transition: all 0.2s var(--ease-smooth);
+  outline: none;
+}
+.input::placeholder { color: var(--text-muted); }
+.input:hover { border-color: var(--primary); background: var(--bg-white); }
+.input:focus {
+  border-color: var(--primary);
+  background: var(--bg-white);
+  box-shadow: 0 0 0 4px var(--primary-glow);
+}
+
+.passwordWrapper { position: relative; }
+
+.eyeIcon {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 18px;
+  height: 18px;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.eyeIcon:hover { color: var(--primary); }
+
+/* ── Submit Button ── */
+.submitBtn {
+  width: 100%;
+  padding: 0.9rem;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+  color: white;
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  margin-top: 0.5rem;
+  margin-bottom: 1.75rem;
+  transition: all 0.25s var(--ease-spring);
+  box-shadow: 0 4px 12px var(--primary-glow);
+}
+.submitBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 22px var(--primary-glow);
+}
+.submitBtn:active { transform: translateY(0); }
+
+/* ── Footer ── */
+.footer {
+  padding: 1.4rem 0;
+  border-top: 1px solid var(--border-soft);
+  color: var(--text-light);
+  font-size: 0.9rem;
+  margin: 0 -2.75rem;
+  padding-left: 2.75rem;
+  padding-right: 2.75rem;
+}
+
+.footer a {
+  color: var(--primary);
+  font-weight: 700;
+  text-decoration: none;
+  transition: opacity 0.2s;
+}
+.footer a:hover { opacity: 0.75; }

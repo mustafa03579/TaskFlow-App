@@ -1,0 +1,43 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  // Supports both SQLite (local dev) and PostgreSQL (AWS RDS production).
+  // Set DATABASE_URL in .env:
+  //   Local:  DATABASE_URL="file:./dev.db"
+  //   AWS:    DATABASE_URL="postgresql://user:pass@rds-endpoint:5432/taskflow"
+  provider = env("DB_PROVIDER")   // "sqlite" | "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String
+  name      String?
+  tasks     Task[]
+  jobs      Job[]
+  createdAt DateTime @default(now())
+}
+
+model Task {
+  id        String   @id @default(uuid())
+  title     String
+  priority  String   // "Low", "Medium", "High"
+  completed Boolean  @default(false)
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+}
+
+model Job {
+  id        String   @id @default(uuid())
+  company   String
+  role      String
+  status    String   // "Applied", "Interviewing", "Offered", "Rejected"
+  notes     String?
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+}

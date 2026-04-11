@@ -1,0 +1,33 @@
+/* ===== SHARED LOGO — used in all pages ===== */
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  text-decoration: none;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.logo svg {
+  transition: transform 0.35s var(--ease-spring, cubic-bezier(0.34,1.56,0.64,1)),
+              filter 0.3s ease;
+  border-radius: 22px;
+  filter: drop-shadow(0 3px 10px rgba(20, 117, 106, 0.22));
+}
+
+.logo:hover svg {
+  transform: scale(1.1) rotate(-4deg);
+  filter: drop-shadow(0 6px 18px rgba(20, 117, 106, 0.38));
+}
+
+.logoText {
+  font-size: 1.15rem;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  background: linear-gradient(135deg, #14756a 0%, #25c49a 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  user-select: none;
+}
