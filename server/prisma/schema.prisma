@@ -7,7 +7,7 @@ datasource db {
   // Set DATABASE_URL in .env:
   //   Local:  DATABASE_URL="file:./dev.db"
   //   AWS:    DATABASE_URL="postgresql://user:pass@rds-endpoint:5432/taskflow"
-  provider = "sqlite"
+  provider = "mysql"
   url      = env("DATABASE_URL")
 }
 
