@@ -12,21 +12,19 @@ function SignIn() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const handleSignIn = (e) => {
+  const handleSignIn = async (e) => {
     e.preventDefault();
     setError('');
     setLoading(true);
 
-    // Small delay for UX feel
-    setTimeout(() => {
-      const result = loginUser(email, password);
-      setLoading(false);
-      if (result.success) {
-        navigate('/dashboard');
-      } else {
-        setError(result.error);
-      }
-    }, 400);
+    const result = await loginUser(email, password);
+    setLoading(false);
+    
+    if (result.success) {
+      navigate('/dashboard');
+    } else {
+      setError(result.error);
+    }
   };
 
   return (

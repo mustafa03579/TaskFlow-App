@@ -1,65 +1,11 @@
-/**
- * Simple auth helpers using localStorage.
- * Stores users as: { email, password } (plain text for demo — replace with hashed in production).
- */
+const SESSION_KEY = 'taskflow_session_v2'; // Store { token, email }
 
-const USERS_KEY = 'taskflow_users';
-const SESSION_KEY = 'taskflow_session';
-
-/** Get all registered users */
-function getUsers() {
-  try {
-    return JSON.parse(localStorage.getItem(USERS_KEY)) || [];
-  } catch {
-    return [];
-  }
+/** Save auth session (JWT) */
+function saveSession(token, email) {
+  localStorage.setItem(SESSION_KEY, JSON.stringify({ token, email }));
 }
 
-/** Save updated users list */
-function saveUsers(users) {
-  localStorage.setItem(USERS_KEY, JSON.stringify(users));
-}
-
-/** Register a new user. Returns { success, error } */
-export function registerUser(email, password) {
-  const emailLower = email.trim().toLowerCase();
-  const users = getUsers();
-
-  if (users.find(u => u.email === emailLower)) {
-    return { success: false, error: 'An account with this email already exists.' };
-  }
-
-  users.push({ email: emailLower, password });
-  saveUsers(users);
-  saveSession(emailLower);
-  return { success: true };
-}
-
-/** Sign in an existing user. Returns { success, error } */
-export function loginUser(email, password) {
-  const emailLower = email.trim().toLowerCase();
-  const users = getUsers();
-
-  const match = users.find(u => u.email === emailLower);
-
-  if (!match) {
-    return { success: false, error: 'No account found with this email address.' };
-  }
-
-  if (match.password !== password) {
-    return { success: false, error: 'Incorrect password. Please try again.' };
-  }
-
-  saveSession(emailLower);
-  return { success: true };
-}
-
-/** Save current session */
-function saveSession(email) {
-  localStorage.setItem(SESSION_KEY, JSON.stringify({ email }));
-}
-
-/** Get logged-in user email, or null */
+/** Get logged-in user session, or null */
 export function getSession() {
   try {
     return JSON.parse(localStorage.getItem(SESSION_KEY));
@@ -68,7 +14,62 @@ export function getSession() {
   }
 }
 
+/** Get JWT specifically */
+export function getToken() {
+  const session = getSession();
+  return session ? session.token : null;
+}
+
 /** Clear session (sign out) */
 export function clearSession() {
   localStorage.removeItem(SESSION_KEY);
+}
+
+/** Utility to generate auth headers */
+export function authHeaders() {
+  const token = getToken();
+  return {
+    'Content-Type': 'application/json',
+    ...(token && { 'Authorization': `Bearer ${token}` })
+  };
+}
+
+/** Register a new user securely via backend API */
+export async function registerUser(email, password) {
+  try {
+    const res = await fetch('/api/auth/register', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: email.trim().toLowerCase(), password })
+    });
+    
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || 'Registration failed');
+
+    // Save JWT token on successful register
+    saveSession(data.token, data.email);
+    return { success: true };
+  } catch (error) {
+    return { success: false, error: error.message };
+  }
+}
+
+/** Login securely via backend API */
+export async function loginUser(email, password) {
+  try {
+    const res = await fetch('/api/auth/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: email.trim().toLowerCase(), password })
+    });
+    
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || 'Login failed');
+
+    // Save JWT token on successful login
+    saveSession(data.token, data.email);
+    return { success: true };
+  } catch (error) {
+    return { success: false, error: error.message };
+  }
 }

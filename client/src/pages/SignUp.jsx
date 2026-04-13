@@ -13,7 +13,7 @@ function SignUp() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const handleSignUp = (e) => {
+  const handleSignUp = async (e) => {
     e.preventDefault();
     setError('');
 
@@ -23,15 +23,14 @@ function SignUp() {
     }
 
     setLoading(true);
-    setTimeout(() => {
-      const result = registerUser(email, password);
-      setLoading(false);
-      if (result.success) {
-        navigate('/dashboard');
-      } else {
-        setError(result.error);
-      }
-    }, 400);
+    const result = await registerUser(email, password);
+    setLoading(false);
+    
+    if (result.success) {
+      navigate('/dashboard');
+    } else {
+      setError(result.error);
+    }
   };
 
   return (

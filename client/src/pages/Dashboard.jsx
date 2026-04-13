@@ -1,13 +1,20 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './Dashboard.module.css';
 import Logo from '../components/Logo';
 import { getGreeting, getFirstName } from '../utils/greeting';
-import { clearSession, getSession } from '../utils/auth';
+import { clearSession, getSession, getToken, authHeaders } from '../utils/auth';
 import ThemeToggle from '../components/ThemeToggle';
 
 function Dashboard() {
   const navigate = useNavigate();
+
+  // Redirect to sign in if no valid session
+  useEffect(() => {
+    if (!getToken()) {
+      navigate('/signin');
+    }
+  }, [navigate]);
 
   // Map priority label → CSS module class
   const priorityClass = {
@@ -16,49 +23,121 @@ function Dashboard() {
     'Low Priority':    'prioLow',
   };
 
-  // Compute greeting once on mount based on current local time
   const { text: greetText, emoji } = useMemo(() => getGreeting(), []);
   const session = getSession();
   const userName = getFirstName(session?.email || 'user');
   const [activeTab, setActiveTab] = useState('tasks');
   const [isModalOpen, setIsModalOpen] = useState(false);
   
-  // Tasks state
+  // Database State
   const [tasks, setTasks] = useState([]);
+  const [jobs, setJobs] = useState([]);
+  const [loadingInitial, setLoadingInitial] = useState(true);
+
+  // Form State
   const [newTaskTitle, setNewTaskTitle] = useState('');
   const [newTaskPriority, setNewTaskPriority] = useState('Medium Priority');
-
-  // Jobs state
-  const [jobs, setJobs] = useState([
-    { id: 1, company: 'AWS', role: 'backend', status: 'Rejected', date: 'Apr 7, 2026' }
-  ]);
-
   const [newJob, setNewJob] = useState({ company: '', role: '', status: 'Applied', notes: '' });
+
+  // ── Fetch Data on Load ─────────────────────────────────
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [tasksRes, jobsRes] = await Promise.all([
+          fetch('/api/tasks', { headers: authHeaders() }),
+          fetch('/api/jobs', { headers: authHeaders() })
+        ]);
+        
+        if (tasksRes.ok) setTasks(await tasksRes.json());
+        if (jobsRes.ok) setJobs(await jobsRes.json());
+      } catch (error) {
+        console.error('Failed to load user data', error);
+      } finally {
+        setLoadingInitial(false);
+      }
+    };
+
+    if (getToken()) fetchData();
+  }, []);
 
   const handleSignOut = () => {
     clearSession();
     navigate('/');
   };
 
-  const handleAddTask = () => {
-    if (newTaskTitle.trim()) {
-      setTasks([...tasks, { id: Date.now(), title: newTaskTitle, priority: newTaskPriority, completed: false }]);
-      setNewTaskTitle('');
+  // ── TASK HANDLERS ──────────────────────────────────────
+  const handleAddTask = async () => {
+    if (!newTaskTitle.trim()) return;
+
+    try {
+      const res = await fetch('/api/tasks', {
+        method: 'POST',
+        headers: authHeaders(),
+        body: JSON.stringify({ title: newTaskTitle, priority: newTaskPriority })
+      });
+      if (res.ok) {
+        const createdTask = await res.json();
+        setTasks([createdTask, ...tasks]); // Add to top
+        setNewTaskTitle('');
+      }
+    } catch (error) {
+      console.error('Failed to add task:', error);
     }
   };
 
-  const handleAddJob = (e) => {
+  const handleToggleTask = async (task) => {
+    // Optimistic UI update
+    setTasks(tasks.map(t => t.id === task.id ? { ...t, completed: !t.completed } : t));
+
+    try {
+      await fetch(`/api/tasks/${task.id}/toggle`, {
+        method: 'PATCH',
+        headers: authHeaders(),
+        body: JSON.stringify({ completed: !task.completed })
+      });
+    } catch (error) {
+      // Revert if failed
+      setTasks(tasks.map(t => t.id === task.id ? { ...t, completed: task.completed } : t));
+    }
+  };
+
+  const handleDeleteTask = async (id) => {
+    try {
+      const res = await fetch(`/api/tasks/${id}`, { method: 'DELETE', headers: authHeaders() });
+      if (res.ok) setTasks(tasks.filter(t => t.id !== id));
+    } catch (error) {
+      console.error('Failed to delete task', error);
+    }
+  };
+
+  // ── JOB HANDLERS ───────────────────────────────────────
+  const handleAddJob = async (e) => {
     e.preventDefault();
-    if (newJob.company && newJob.role) {
-      setJobs([{ 
-        id: Date.now(), 
-        company: newJob.company, 
-        role: newJob.role, 
-        status: newJob.status, 
-        date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
-      }, ...jobs]);
-      setIsModalOpen(false);
-      setNewJob({ company: '', role: '', status: 'Applied', notes: '' });
+    if (!newJob.company || !newJob.role) return;
+
+    try {
+      const res = await fetch('/api/jobs', {
+        method: 'POST',
+        headers: authHeaders(),
+        body: JSON.stringify(newJob)
+      });
+      if (res.ok) {
+        const createdJob = await res.json();
+        setJobs([createdJob, ...jobs]);
+        setIsModalOpen(false);
+        setNewJob({ company: '', role: '', status: 'Applied', notes: '' });
+      }
+    } catch (error) {
+      console.error('Failed to add application', error);
+    }
+  };
+
+  const handleDeleteJob = async (id) => {
+    try {
+      const res = await fetch(`/api/jobs/${id}`, { method: 'DELETE', headers: authHeaders() });
+      if (res.ok) setJobs(jobs.filter(j => j.id !== id));
+    } catch (error) {
+      console.error('Failed to delete application', error);
     }
   };
 
@@ -67,6 +146,8 @@ function Dashboard() {
   const highPriority = tasks.filter(t => !t.completed && t.priority === 'High Priority').length;
   const medPriority = tasks.filter(t => !t.completed && t.priority === 'Medium Priority').length;
   const lowPriority = tasks.filter(t => !t.completed && t.priority === 'Low Priority').length;
+
+  if (loadingInitial) return <div className={styles.appContainer} style={{display:'flex',justifyContent:'center',alignItems:'center'}}>Loading your dashboard...</div>;
 
   return (
     <div className={styles.appContainer}>
@@ -165,7 +246,7 @@ function Dashboard() {
                       {/* Custom styled checkbox */}
                       <button
                         className={`${styles.checkCircle} ${task.completed ? styles.checkCircleDone : ''}`}
-                        onClick={() => setTasks(tasks.map(t => t.id === task.id ? {...t, completed: !t.completed} : t))}
+                        onClick={() => handleToggleTask(task)}
                         title="Mark as done"
                       >
                         {task.completed && (
@@ -183,7 +264,7 @@ function Dashboard() {
                       </span>
                       <button
                         className={styles.deleteBtn}
-                        onClick={() => setTasks(tasks.filter(t => t.id !== task.id))}
+                        onClick={() => handleDeleteTask(task.id)}
                         title="Delete task"
                       >
                         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
@@ -247,7 +328,7 @@ function Dashboard() {
                     </div>
                     <div className={styles.jobDate}>
                       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
-                      {job.date}
+                      {new Date(job.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
                     </div>
                     <div className={styles.jobSubText}>applying for</div>
                   </div>
@@ -258,7 +339,7 @@ function Dashboard() {
                     </div>
                     <button
                       className={styles.deleteBtn}
-                      onClick={() => setJobs(jobs.filter(j => j.id !== job.id))}
+                      onClick={() => handleDeleteJob(job.id)}
                       title="Delete application"
                     >
                       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
